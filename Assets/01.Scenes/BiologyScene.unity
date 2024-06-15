@@ -2149,7 +2149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000011057732095}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.11199999, y: 0.462, z: -0.337}
+  m_LocalPosition: {x: -0.105, y: 0.428, z: -0.349}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2344,3 +2344,4 @@ MonoBehaviour:
   waterAmount: 0
   lightAmount: 0
   temperature: 0
+  sprout: {fileID: 0}

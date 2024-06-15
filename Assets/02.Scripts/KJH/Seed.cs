@@ -135,15 +135,15 @@ public class Seed : MonoBehaviour
     void Grow()
     {
         // 싹의 성장
-        if (sprout.transform.localScale.x < 1)
-        {
-            // 커짐
-            sprout.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-            growthProgress += 10; // 진행도 증가
-        }
+        float growthRate = 1000f; // 성장 속도
+        growthProgress += growthRate * Time.deltaTime; // 성장 진행도 증가
+
+        float scaleFactor = Mathf.Lerp(0f, 1f, growthProgress / 100f); // growthProgress가 0부터 100 사이에서 성장 진행 상태를 나타내도록 설정
+
+        // 싹의 크기를 부드럽게 증가시킴
+        sprout.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, scaleFactor);
     }
 
-    // 조건 충족시 성장
     void ActiveGrowthTimer()
     {
         growthTimer += Time.deltaTime;
@@ -153,6 +153,7 @@ public class Seed : MonoBehaviour
             growthTimer = 0;
         }
     }
+
 
     void CheckSproutActive()
     {
