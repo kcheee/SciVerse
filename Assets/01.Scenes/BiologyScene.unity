@@ -866,7 +866,7 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0
   m_Range: 16.01904
-  m_SpotAngle: 48.542236
+  m_SpotAngle: 39
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
@@ -1795,11 +1795,10 @@ MonoBehaviour:
   lightSlider: {fileID: 1067161398}
   temperatureSlider: {fileID: 210148845}
   statusText: {fileID: 1519893548}
-  causeText: {fileID: 0}
   waterStatusText: {fileID: 1286485049}
   lightStatusText: {fileID: 1975663975}
   temperatureStatusText: {fileID: 1088636957}
-  plantLight: {fileID: 0}
+  plantLight: {fileID: 836013836}
 --- !u!4 &1756650387
 Transform:
   m_ObjectHideFlags: 0

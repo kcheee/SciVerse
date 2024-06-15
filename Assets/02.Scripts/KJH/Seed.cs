@@ -2,18 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct Range
+{
+    public float min;
+    public float max;
+
+    public Range(float min, float max)
+    {
+        this.min = min;
+        this.max = max;
+    }
+}
+
 public class Seed : MonoBehaviour
 {
     [SerializeField] private Range waterRange = new Range(0.2f, 0.5f);
     [SerializeField] private Range lightRange = new Range(0.2f, 0.5f);
     [SerializeField] private Range tempRange = new Range(0.2f, 0.5f);
 
+    [Header("CurAmount")]
     public float waterAmount;
     public float lightAmount;
     public float temperature;
     public float growthProgress { get; set; }
 
-    private GameObject sprout; // 싹이 트는 오브젝트
+    [HideInInspector]
+    public GameObject sprout; // 싹이 트는 오브젝트
 
     private bool isGrowing;
     private float growthTimer;
@@ -28,18 +43,20 @@ public class Seed : MonoBehaviour
 
         public Condition(Range range, string under, string over, string optimal)
         {
-            this.amount = 0;
+            this.amount = 0; // amount 초기화 추가
             this.range = range;
             this.under = under;
             this.over = over;
             this.optimal = optimal;
         }
 
+        // 적정한지 확인
         public bool IsOptimal()
         {
             return amount >= range.min && amount <= range.max;
         }
 
+        // 상태 반환
         public string GetStatus()
         {
             if (amount < range.min)
@@ -60,18 +77,22 @@ public class Seed : MonoBehaviour
     private Condition lightCondition;
     private Condition temperatureCondition;
 
+    private Material sproutMaterial;
+    private Color originalColor = Color.white;
+    private Color dryColor = Color.yellow;
+    private Color wetColor = Color.blue;
+
     void Start()
     {
-        // 첫번째 자식 오브젝트를 싹으로 설정
-        sprout = transform.GetChild(0).gameObject;
-        sprout.transform.localScale = Vector3.zero;
-        sprout.gameObject.SetActive(false);
+        // 싹 설정
+        SetSprout();
 
-        growthProgress = 0;
+        // 상태 초기화
+        SetCondition();
 
-        waterCondition = new Condition(waterRange, "물 부족", "물 과다", "적정");
-        lightCondition = new Condition(lightRange, "빛 부족", "빛 과다", "적정");
-        temperatureCondition = new Condition(tempRange, "온도 부족", "온도 과다", "적정");
+        // Material 및 원래 색상 저장
+        sproutMaterial = sprout.GetComponent<MeshRenderer>().material;
+        originalColor = sproutMaterial.color;
     }
 
     void Update()
@@ -89,6 +110,26 @@ public class Seed : MonoBehaviour
         {
             growthTimer = 0;
         }
+
+        UpdateSproutColor();
+    }
+
+    void SetSprout()
+    {
+        // 첫번째 자식 오브젝트를 싹으로 설정
+        sprout = transform.GetChild(0).gameObject;
+        // 크기 0으로 초기화
+        sprout.transform.localScale = Vector3.zero;
+        // 비활성화
+        sprout.SetActive(false);
+    }
+
+    void SetCondition()
+    {
+        growthProgress = 0;
+        waterCondition = new Condition(waterRange, "물 부족", "물 과다", "적정");
+        lightCondition = new Condition(lightRange, "빛 부족", "빛 과다", "적정");
+        temperatureCondition = new Condition(tempRange, "온도 부족", "온도 과다", "적정");
     }
 
     void Grow()
@@ -96,11 +137,13 @@ public class Seed : MonoBehaviour
         // 싹의 성장
         if (sprout.transform.localScale.x < 1)
         {
+            // 커짐
             sprout.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-            growthProgress += 10;
+            growthProgress += 10; // 진행도 증가
         }
     }
 
+    // 조건 충족시 성장
     void ActiveGrowthTimer()
     {
         growthTimer += Time.deltaTime;
@@ -115,6 +158,22 @@ public class Seed : MonoBehaviour
     {
         if (!sprout.activeSelf)
             sprout.SetActive(true);
+    }
+
+    void UpdateSproutColor()
+    {
+        if (!waterCondition.IsOptimal())
+        {
+            if(waterAmount < waterRange.min)
+                sproutMaterial.color = dryColor; // 수분 부족 상태일 때는 노란색
+            else
+                sproutMaterial.color = wetColor; // 수분 과다 상태일 때는 파란색
+
+        }
+        else
+        {
+            sproutMaterial.color = originalColor; // 적정 상태일 때는 원래 색상
+        }
     }
 
     public bool CheckGrowthConditions()
@@ -190,18 +249,5 @@ public class Seed : MonoBehaviour
     public void SetTemperature(float temp)
     {
         temperature = temp;
-    }
-}
-
-[System.Serializable]
-public struct Range
-{
-    public float min;
-    public float max;
-
-    public Range(float min, float max)
-    {
-        this.min = min;
-        this.max = max;
     }
 }
