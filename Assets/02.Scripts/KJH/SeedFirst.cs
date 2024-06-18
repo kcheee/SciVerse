@@ -15,7 +15,7 @@ public struct Range
     }
 }
 
-public class Seed : MonoBehaviour
+public class SeedFirst : MonoBehaviour
 {
     [SerializeField] private Range waterRange = new Range(0.2f, 0.5f);
     [SerializeField] private Range lightRange = new Range(0.2f, 0.5f);
@@ -135,7 +135,7 @@ public class Seed : MonoBehaviour
     void Grow()
     {
         // 싹의 성장
-        float growthRate = 1000f; // 성장 속도
+        float growthRate = 2000f; // 성장 속도
         growthProgress += growthRate * Time.deltaTime; // 성장 진행도 증가
 
         float scaleFactor = Mathf.Lerp(0f, 1f, growthProgress / 100f); // growthProgress가 0부터 100 사이에서 성장 진행 상태를 나타내도록 설정
