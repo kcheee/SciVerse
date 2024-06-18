@@ -2265,7 +2265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &927406528193565113
 GameObject:
   m_ObjectHideFlags: 0
@@ -3867,8 +3867,8 @@ Transform:
   m_GameObject: {fileID: 732853410902026665}
   m_LocalRotation: {x: -0.34361356, y: -0, z: -0, w: 0.9391112}
   m_LocalPosition: {x: -0.26999986, y: -0.13, z: -1.3900001}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1519173396885307696}
   - {fileID: 1519173397151010002}
@@ -3920,6 +3920,7 @@ MonoBehaviour:
   smallStage: {fileID: 3221126492807133550}
   mediumStage: {fileID: 927406528193565113}
   largeStage: {fileID: 6619307056000128710}
+  resultStage: {fileID: 732853410902026665}
 --- !u!23 &9142284113123154585
 MeshRenderer:
   m_ObjectHideFlags: 0

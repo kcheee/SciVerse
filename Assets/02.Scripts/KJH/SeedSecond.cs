@@ -88,7 +88,6 @@ public class SeedSecond : MonoBehaviour
         }
 
         UpdatePlantStage();
-        print("gp: " + growthProgress);
     }
 
     void SetStagesInactive()
@@ -144,6 +143,7 @@ public class SeedSecond : MonoBehaviour
         {
             newStage = largeStage;
         }
+
 
         if (currentStage != newStage)
         {
