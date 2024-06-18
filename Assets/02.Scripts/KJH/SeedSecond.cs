@@ -19,6 +19,7 @@ public class SeedSecond : MonoBehaviour
     public GameObject smallStage;
     public GameObject mediumStage;
     public GameObject largeStage;
+    public GameObject resultTomato; // 결과 단계 오브젝트 추가
     private GameObject currentStage;
 
     private bool isGrowing;
@@ -88,6 +89,8 @@ public class SeedSecond : MonoBehaviour
         }
 
         UpdatePlantStage();
+
+        print(growthProgress);
     }
 
     void SetStagesInactive()
@@ -96,6 +99,7 @@ public class SeedSecond : MonoBehaviour
         smallStage.SetActive(false);
         mediumStage.SetActive(false);
         largeStage.SetActive(false);
+        resultTomato.SetActive(false); // 결과 단계 비활성화
     }
 
     void SetCondition()
@@ -139,15 +143,18 @@ public class SeedSecond : MonoBehaviour
         {
             newStage = mediumStage;
         }
-        else
+        else if (growthProgress < 100)
         {
             newStage = largeStage;
         }
-
+        else if (growthProgress >= 100)
+        {
+            newStage = resultTomato;
+        }
 
         if (currentStage != newStage)
         {
-            if (currentStage != null)
+            if (currentStage != null && currentStage != largeStage)
             {
                 currentStage.SetActive(false);
             }
