@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9736fe428bae9c244ab90665748c87a0, type: 3}
+  m_Name: ElementData
+  m_EditorClassIdentifier: 
+  elements:
+  - symbol: Cu
+    elementName: Copper
+    flameColor: Green
+    particlePrefab: {fileID: 7602389269990441933, guid: 5e8fd58391a13514f8b080534e45d59b, type: 3}
+  - symbol: K
+    elementName: Potassium
+    flameColor: Lilac
+    particlePrefab: {fileID: 7602389269990441933, guid: 5e8fd58391a13514f8b080534e45d59b, type: 3}
+  - symbol: Li
+    elementName: Lithium
+    flameColor: Crimson Red
+    particlePrefab: {fileID: 7602389269990441933, guid: 5e8fd58391a13514f8b080534e45d59b, type: 3}
+  - symbol: Na
+    elementName: Sodium
+    flameColor: Intense Yellow
+    particlePrefab: {fileID: 7602389269990441933, guid: 5e8fd58391a13514f8b080534e45d59b, type: 3}
+  - symbol: 
+    elementName: 
+    flameColor: 
+    particlePrefab: {fileID: 0}
