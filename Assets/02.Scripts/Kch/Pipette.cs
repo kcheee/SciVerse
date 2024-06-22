@@ -4,22 +4,28 @@ public class Pipette : MonoBehaviour
 {
     public int elementIndex;
 
-    private Element currentElement;
+    public Element currentElement;
 
     private void Start()
     {
         // 임의로
-        currentElement = ElementManager.Instance.GetElement(elementIndex);
+        //currentElement = ElementManager.Instance.GetElement(elementIndex);
     }
 
     private void OnTriggerEnter(Collider other)
     {
 
-        // Element 가져옴
-
-        // 접시에 옮김.
-        if(other.gameObject.CompareTag("Dish"))
+        // Beaker to Pipette 
+        if (other.gameObject.CompareTag("Beaker"))
         {
+            Debug.Log(other.gameObject.GetComponent<Beaker>().elementIndex);
+            TransferBeakerToPipette(other.gameObject.GetComponent<Beaker>().elementIndex);
+        }
+
+        // Pipette to Dish
+        if (other.gameObject.CompareTag("Dish"))
+        {
+            Debug.Log("요소 옮기기");
             TransferElementToDish(other.GetComponent<Dish>());
         }
     }
@@ -27,7 +33,7 @@ public class Pipette : MonoBehaviour
     // 스포이드로 가져옴
     public void TransferBeakerToPipette(int index)
     {
-        currentElement = ElementManager.Instance.GetElement(elementIndex);
+        currentElement = ElementManager.Instance.GetElement(index);
     }
 
     // 접시에 옮김

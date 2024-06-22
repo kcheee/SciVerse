@@ -16,7 +16,7 @@ MonoBehaviour:
   - symbol: Cu
     elementName: Copper
     flameColor: Green
-    particlePrefab: {fileID: 7602389269990441933, guid: 5e8fd58391a13514f8b080534e45d59b, type: 3}
+    particlePrefab: {fileID: 7602389269990441933, guid: 4326bfd2e1106d344970db9a6b6e5579, type: 3}
   - symbol: K
     elementName: Potassium
     flameColor: Lilac
@@ -24,11 +24,11 @@ MonoBehaviour:
   - symbol: Li
     elementName: Lithium
     flameColor: Crimson Red
-    particlePrefab: {fileID: 7602389269990441933, guid: 5e8fd58391a13514f8b080534e45d59b, type: 3}
+    particlePrefab: {fileID: 7602389269990441933, guid: a1c554757fe7f7d4bb37ffb7a701a97f, type: 3}
   - symbol: Na
     elementName: Sodium
     flameColor: Intense Yellow
-    particlePrefab: {fileID: 7602389269990441933, guid: 5e8fd58391a13514f8b080534e45d59b, type: 3}
+    particlePrefab: {fileID: 7602389269990441933, guid: 160fda92b6efeca47992998a54cbfeed, type: 3}
   - symbol: 
     elementName: 
     flameColor: 

@@ -7,6 +7,7 @@ TagManager:
   - Flame
   - Element
   - Dish
+  - Beaker
   layers:
   - Default
   - TransparentFX
