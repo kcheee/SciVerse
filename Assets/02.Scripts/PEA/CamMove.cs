@@ -33,7 +33,6 @@ public class CamMove : MonoBehaviour
     void Start()
     {
         observeDist = observeCamTr.position.y;
-        print(observeDist);
     }
 
     void Update()
@@ -81,6 +80,7 @@ public class CamMove : MonoBehaviour
             }
 
             isArrived = false;
+            UI_ES.instance.ShowPlanetInfoPanel();
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -94,6 +94,7 @@ public class CamMove : MonoBehaviour
             }
 
             isArrived = false;
+            UI_ES.instance.ShowPlanetInfoPanel();
         }
     }
 
@@ -146,6 +147,7 @@ public class CamMove : MonoBehaviour
         if(Vector3.Distance(compareCamTr.position, dest.position) <= 0.1f)
         {
             isArrived = true;
+            UI_ES.instance.ShowPlanetInfoPanel(comparePlanet - 1);
         }
     }
 }
