@@ -1,15 +1,20 @@
 using UnityEngine;
+using UnitySimpleLiquid;
 
 public class Pipette : MonoBehaviour
 {
     public int elementIndex;
 
     public Element currentElement;
+    private LiquidContainer liquidContainer;
 
     private void Start()
     {
         // 임의로
         //currentElement = ElementManager.Instance.GetElement(elementIndex);
+
+
+        liquidContainer = GetComponentInParent<LiquidContainer>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,6 +25,9 @@ public class Pipette : MonoBehaviour
         {
             Debug.Log(other.gameObject.GetComponent<Beaker>().elementIndex);
             TransferBeakerToPipette(other.gameObject.GetComponent<Beaker>().elementIndex);
+
+            // 용액 채우기
+            liquidContainer.FillAmountPercent = 1;
         }
 
         // Pipette to Dish
