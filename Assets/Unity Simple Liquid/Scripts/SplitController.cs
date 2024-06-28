@@ -250,8 +250,15 @@ namespace UnitySimpleLiquid
 				SendLiquidContainer(liquid.liquidContainer);
 			}
 
-			
-		}
+			// 커스텀 코드
+			// water인지 알코올인지 확인.
+			Debug.Log(gameObject.name);
+			var beaker = hit.collider.GetComponent<Beaker>();
+            if (beaker != null && !beaker.isWater)           
+                beaker.isWater = true;
+            
+
+        }
 		
 		private RaycastHit FindLiquidContainer(Vector3 splitPos, GameObject ignoreCollision)
 		{

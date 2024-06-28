@@ -3,11 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnitySimpleLiquid;
 
 public class Beaker : MonoBehaviour
 {
     public int elementIndex;
     [SerializeField] private Element element;
+    LiquidContainer liquidContainer;
+
 
     // 현재 가지고 있는 요소물질
     GameObject elementPowder;
@@ -43,8 +46,9 @@ public class Beaker : MonoBehaviour
     private void Start()
     {
         element = ElementManager.Instance.GetElement(elementIndex);
+        liquidContainer = GetComponent<LiquidContainer>();
         // 자식에 있는 값들 중 Element 오브젝트 찾기
-        foreach(Transform child in gameObject.transform)
+        foreach (Transform child in gameObject.transform)
         {
             if (child.name == element.symbol)
             {
@@ -53,6 +57,7 @@ public class Beaker : MonoBehaviour
         }
     }
 
+    
 
     // 요소 정보
     public void SetElement(Element newElement)
