@@ -54,7 +54,7 @@ namespace UnitySimpleLiquid
 
         #region Liquid Amount
         // After this values shader might become unstable
-        private const float minFillAmount = 0.1f;
+        private const float minFillAmount = 0.01f;
         private const float maxFillAmount = 0.99f;
 
         public bool IsOpen
