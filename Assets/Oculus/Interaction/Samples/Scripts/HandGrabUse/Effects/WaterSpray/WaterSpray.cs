@@ -1,23 +1,3 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 using Oculus.Interaction.HandGrab;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,7 +32,7 @@ namespace Oculus.Interaction.Demo
         [SerializeField]
         private float _triggerSpeed = 3f;
         [SerializeField]
-        private AnimationCurve _strengthCurve = AnimationCurve.EaseInOut(0f,0f,1f,1f);
+        private AnimationCurve _strengthCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
         [Header("Output")]
         [SerializeField, Tooltip("Masks the Raycast used to find objects to make wet")]
@@ -110,25 +90,25 @@ namespace Oculus.Interaction.Demo
             }
         }
 
-        private void UpdateTriggerRotation(float progress)
+        private void Update()
         {
-            float value = _triggerRotationCurve.Evaluate(progress);
-            Vector3 angles = _trigger.localEulerAngles;
-            if ((_axis & SnapAxis.X) != 0)
-            {
-                angles.x = value;
-            }
-            if ((_axis & SnapAxis.Y) != 0)
-            {
-                angles.y = value;
-            }
-            if ((_axis & SnapAxis.Z) != 0)
-            {
-                angles.z = value;
-            }
-            _trigger.localEulerAngles = angles;
-        }
+            // 부모 오브젝트의 z 회전값을 확인
+            float parentZRotation = _trigger.parent.localEulerAngles.z;
 
+            // 부모 오브젝트의 z 회전값이 양수일 때 물이 나옴
+            if (parentZRotation > 0 && parentZRotation < 60) // 0도에서 60도 사이의 각도에서 작동
+            {
+                if (!_wasFired)
+                {
+                    _wasFired = true;
+                    SprayWater();
+                }
+            }
+            else
+            {
+                _wasFired = false;
+            }
+        }
 
         private NozzleMode GetNozzleMode()
         {
@@ -139,9 +119,11 @@ namespace Oculus.Interaction.Demo
             }
             return NozzleMode.Stream;
         }
+
         #endregion
 
         #region output
+
         private void Spray()
         {
             StartCoroutine(StampRoutine(_sprayHits, _sprayRandomness, _spraySpreadAngle, _sprayStrength));
@@ -202,9 +184,6 @@ namespace Oculus.Interaction.Demo
             roots.Clear();
         }
 
-        /// <summary>
-        /// Finds Meshes that are part of the rootObject and blits the material on them
-        /// </summary>
         private void RenderSplash(Transform rootObject)
         {
             List<MeshFilter> meshFilters = NonAlloc.GetMeshFiltersInChildren(rootObject);
@@ -216,9 +195,6 @@ namespace Oculus.Interaction.Demo
             }
         }
 
-        /// <summary>
-        /// Sets up a new mesh blit on the mesh filter for the water spray
-        /// </summary>
         private MeshBlit CreateMeshBlit(MeshFilter meshFilter)
         {
             MeshBlit newBlit = meshFilter.gameObject.AddComponent<MeshBlit>();
@@ -252,9 +228,6 @@ namespace Oculus.Interaction.Demo
             return GL.GetGPUProjectionMatrix(Matrix4x4.Perspective(angle, 1, 0, _maxDistance), true) * viewMatrix;
         }
 
-        /// <summary>
-        /// Cleans destroyed MeshBlits form the dictionary
-        /// </summary>
         private void OnDestroy()
         {
             NonAlloc.CleanUpDestroyedBlits();
@@ -284,29 +257,11 @@ namespace Oculus.Interaction.Demo
                 _dampedUseStrength = strength;
             }
             float progress = _strengthCurve.Evaluate(_dampedUseStrength);
-            UpdateTriggerProgress(progress);
             return progress;
         }
 
-        private void UpdateTriggerProgress(float progress)
-        {
-            UpdateTriggerRotation(progress);
-
-            if (progress >= _fireThresold && !_wasFired)
-            {
-                _wasFired = true;
-                SprayWater();
-            }
-            else if (progress <= _releaseThresold)
-            {
-                _wasFired = false;
-            }
-        }
-
         #endregion
-        /// <summary>
-        /// Allocation helpers
-        /// </summary>
+
         static class NonAlloc
         {
             public static readonly Collider[] _overlapResults = new Collider[12];
@@ -334,9 +289,6 @@ namespace Oculus.Interaction.Demo
                 return _roots;
             }
 
-            /// <summary>
-            /// Returns the most likely 'root object' for the hit e.g. the rigidbody
-            /// </summary>
             static Transform GetRoot(Collider hit)
             {
                 return hit.attachedRigidbody ? hit.attachedRigidbody.transform :
