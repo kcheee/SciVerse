@@ -37,7 +37,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    isMenuOpened = !isMenuOpened;
+        //    MenuOpen(isMenuOpened);
+        //}
+
+        if (OVRInput.GetDown(OVRInput.RawButton.X))
         {
             isMenuOpened = !isMenuOpened;
             MenuOpen(isMenuOpened);

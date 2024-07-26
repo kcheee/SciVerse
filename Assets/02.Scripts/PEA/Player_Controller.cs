@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Player_Controller : MonoBehaviour
 {
-    private float rayMaxDist = 10f;
+    //private float rayMaxDist = 10f;
     private RaycastHit hit;
     private GameObject curHitObj;
     private GameObject prevHitObj;
@@ -94,6 +94,7 @@ public class Player_Controller : MonoBehaviour
                     break;
             }
 
+            prevHitObj = curHitObj;
             curHitObj = null;
         }
     } 
@@ -120,7 +121,7 @@ public class Player_Controller : MonoBehaviour
 
     private void UIInteraction()
     {
-        if(OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) && pointer.activeSelf)
+        if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) && pointer.activeSelf)
         {
             curHitObj.TryGetComponent<Button>(out Button btn);
             btn.onClick.Invoke();
