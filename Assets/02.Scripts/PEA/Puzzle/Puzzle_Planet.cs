@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Puzzle_Planet : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class Puzzle_Planet : MonoBehaviour//, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     enum State
     {
@@ -37,14 +37,19 @@ public class Puzzle_Planet : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             case State.Idle:
                 break;
             case State.Move:
+
+                //여기부터 
                 // Screen 좌표계인 mousePosition을 World 좌표계로
-                Vector3 mousePos = Input.mousePosition;
-                mousePos.z = Mathf.Abs(transform.position.z - Camera.main.transform.position.z);
-                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+                //Vector3 mousePos = Input.mousePosition;
+                //mousePos.z = Mathf.Abs(transform.position.z - Camera.main.transform.position.z);
+                //mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-                transform.position = mousePos;
+                //transform.position = mousePos;
 
-                if (Input.GetMouseButtonUp(0))
+                //if (Input.GetMouseButtonUp(0))
+                // 여기까지 VR아닐때
+
+                if(OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger))
                 {
                     state = State.Idle;
 
@@ -104,40 +109,67 @@ public class Puzzle_Planet : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         return nearestCircle;
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if(coroutine != null)
-        {
-            StopCoroutine(coroutine);
-            coroutine = null;
-        }
+    //public void OnPointerEnter(PointerEventData eventData)
+    //{
+    //    if(coroutine != null)
+    //    {
+    //        StopCoroutine(coroutine);
+    //        coroutine = null;
+    //    }
 
-        coroutine = StartCoroutine(ShowText(true));
-    }
+    //    coroutine = StartCoroutine(ShowText(true));
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Circle"))
         {
             contactedCircleTr.Add(other.transform);
-        }        
+        }       
+        else if (other.CompareTag("Hand"))
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+                coroutine = null;
+            }
+
+            coroutine = StartCoroutine(ShowText(true));
+
+            if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger))
+            {
+                state = State.Move;
+                //transform.SetParent(other.transform);
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.CompareTag("Hand"))
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+                coroutine = null;
+            }
+
+            coroutine = StartCoroutine(ShowText(false));
+        }
+
         contactedCircleTr.Remove(other.transform);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (coroutine != null)
-        {
-            StopCoroutine(coroutine);
-            coroutine = null;
-        }
+    //public void OnPointerExit(PointerEventData eventData)
+    //{
+    //    if (coroutine != null)
+    //    {
+    //        StopCoroutine(coroutine);
+    //        coroutine = null;
+    //    }
 
-        coroutine = StartCoroutine(ShowText(false));
-    }
+    //    coroutine = StartCoroutine(ShowText(false));
+    //}
 
     IEnumerator ShowText(bool isActive)
     {
@@ -161,16 +193,15 @@ public class Puzzle_Planet : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         }
 
-
-
         coroutine = null;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            state = State.Move;
-        }
-    }
+    // VR 아닐때 
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        state = State.Move;
+    //    }
+    //}
 }

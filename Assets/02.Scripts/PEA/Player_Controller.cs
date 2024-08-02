@@ -19,7 +19,7 @@ public class Player_Controller : MonoBehaviour
     public enum InteractionMode
     {
         PointerMode,
-        LaserMode
+        LineMode
     }
 
     private InteractionMode interactionMode = InteractionMode.PointerMode;
@@ -31,7 +31,7 @@ public class Player_Controller : MonoBehaviour
 
     void Update()
     {
-        
+        ControllerRaycast();
     }
 
     private void SettingLine()
@@ -72,9 +72,16 @@ public class Player_Controller : MonoBehaviour
                     case InteractionMode.PointerMode:
                         Pointer(true);
                         break;
-                    case InteractionMode.LaserMode:
+                    case InteractionMode.LineMode:
                         break;
                 }
+
+
+            }
+
+            if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
+            {
+                UIInteraction();
             }
         }
         else
@@ -90,7 +97,8 @@ public class Player_Controller : MonoBehaviour
                 case InteractionMode.PointerMode:
                     Pointer(false);
                     break;
-                case InteractionMode.LaserMode:
+                case InteractionMode.LineMode:
+                    Line(true);
                     break;
             }
 
@@ -109,7 +117,7 @@ public class Player_Controller : MonoBehaviour
         pointer.SetActive(isActive);
     }
 
-    private void Laser(bool isActive)
+    private void Line(bool isActive)
     {
         if (isActive)
         {
@@ -121,10 +129,10 @@ public class Player_Controller : MonoBehaviour
 
     private void UIInteraction()
     {
-        if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) && pointer.activeSelf)
-        {
+        //if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) && pointer.activeSelf)
+        //{
             curHitObj.TryGetComponent<Button>(out Button btn);
             btn.onClick.Invoke();
-        }
+        //}
     }
 }
