@@ -32,54 +32,76 @@ public class Puzzle_Planet : MonoBehaviour//, IPointerEnterHandler, IPointerExit
 
     void Update()
     {
-        switch (state)
+        //switch (state)
+        //{
+        //    case State.Idle:
+        //        break;
+        //    case State.Move:
+
+        //        //여기부터 
+        //        // Screen 좌표계인 mousePosition을 World 좌표계로
+        //        //Vector3 mousePos = Input.mousePosition;
+        //        //mousePos.z = Mathf.Abs(transform.position.z - Camera.main.transform.position.z);
+        //        //mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        //        //transform.position = mousePos;
+
+        //        //if (Input.GetMouseButtonUp(0))
+        //        // 여기까지 VR아닐때
+
+        //        if(OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger))
+        //        {
+        //            state = State.Idle;
+
+        //            // 마우스를 놓았을 때 닿아있는 원이 있으면 원 안으로 넣어줌
+        //            if (contactedCircleTr.Count > 0)
+        //            {
+        //                if(myCircle != null)
+        //                {
+        //                    prevCircle = myCircle;
+        //                }
+
+        //                // 닿아있는 원들 중 가장 가까운 원으로 감
+        //                myCircle = GetNearestCircle();
+
+        //                // 이미 다른 행성이 있는 자리면 서로 자리 바꿔줌
+        //                if(myCircle.childCount > 0)
+        //                {
+        //                    myCircle.GetComponentInChildren<Puzzle_Planet>().ChangeCircle(prevCircle != null ? prevCircle : transform.parent);
+        //                    transform.SetParent(myCircle);
+        //                }
+        //                else
+        //                {
+        //                    transform.SetParent(myCircle);
+        //                }
+        //            }
+
+        //            transform.localPosition = Vector3.zero;
+        //        }
+        //        break;
+        //}
+    }
+
+    public void Move(Vector3 pos)
+    {
+        transform.position = pos;
+    }
+
+    public void ReturnOrMove()
+    {
+        if(contactedCircleTr.Count > 0)
         {
-            case State.Idle:
-                break;
-            case State.Move:
+            myCircle =  GetNearestCircle();
 
-                //여기부터 
-                // Screen 좌표계인 mousePosition을 World 좌표계로
-                //Vector3 mousePos = Input.mousePosition;
-                //mousePos.z = Mathf.Abs(transform.position.z - Camera.main.transform.position.z);
-                //mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            if(myCircle.childCount > 0)
+            {
+                myCircle.GetComponentInChildren<Puzzle_Planet>().ChangeCircle(prevCircle != null ? prevCircle : transform.parent);
+            }
 
-                //transform.position = mousePos;
-
-                //if (Input.GetMouseButtonUp(0))
-                // 여기까지 VR아닐때
-
-                if(OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger))
-                {
-                    state = State.Idle;
-
-                    // 마우스를 놓았을 때 닿아있는 원이 있으면 원 안으로 넣어줌
-                    if (contactedCircleTr.Count > 0)
-                    {
-                        if(myCircle != null)
-                        {
-                            prevCircle = myCircle;
-                        }
-
-                        // 닿아있는 원들 중 가장 가까운 원으로 감
-                        myCircle = GetNearestCircle();
-
-                        // 이미 다른 행성이 있는 자리면 서로 자리 바꿔줌
-                        if(myCircle.childCount > 0)
-                        {
-                            myCircle.GetComponentInChildren<Puzzle_Planet>().ChangeCircle(prevCircle != null ? prevCircle : transform.parent);
-                            transform.SetParent(myCircle);
-                        }
-                        else
-                        {
-                            transform.SetParent(myCircle);
-                        }
-                    }
-
-                    transform.localPosition = Vector3.zero;
-                }
-                break;
+            transform.SetParent(myCircle);
         }
+
+        transform.localPosition = Vector3.zero;
     }
 
     // 다른 행성과 자리 교체(마우스로 이동한 행성의 스크립트에서 호출해줌)

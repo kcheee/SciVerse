@@ -11,6 +11,8 @@ public class Player_Controller : MonoBehaviour
     private GameObject curHitObj;
     private GameObject prevHitObj;
 
+    private Puzzle_Planet holdObj;
+
     private LineRenderer lineRenderer;
 
     public GameObject pointer;
@@ -22,7 +24,7 @@ public class Player_Controller : MonoBehaviour
         LineMode
     }
 
-    private InteractionMode interactionMode = InteractionMode.PointerMode;
+    private InteractionMode interactionMode = InteractionMode.LineMode;
 
     void Start()
     {
@@ -44,7 +46,7 @@ public class Player_Controller : MonoBehaviour
     private void ControllerRaycast()
     {
 
-        if(Physics.Raycast(rightController.position, Vector3.forward, out hit) && hit.transform.gameObject.layer == LayerMask.GetMask("UI"))
+        if(Physics.Raycast(rightController.position, Vector3.forward, out hit))
         {
             if(curHitObj != hit.transform.gameObject)
             {
@@ -76,12 +78,19 @@ public class Player_Controller : MonoBehaviour
                         break;
                 }
 
+                if(OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
+                {
+                    if(hit.transform.gameObject.layer == LayerMask.GetMask("UI"))
+                    {
+                        UIInteraction();
+                    }
+                    else if(hit.transform.CompareTag("HoldObj"))
+                    {
+                        holdObj = hit.transform.GetComponent<Puzzle_Planet>();
+                    }
+                }
 
-            }
-
-            if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
-            {
-                UIInteraction();
+                holdObj?.Move(hit.point);
             }
         }
         else
