@@ -4,7 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Circle
+  - Flame
+  - Element
+  - Dish
+  - Beaker
   layers:
   - Default
   - TransparentFX
